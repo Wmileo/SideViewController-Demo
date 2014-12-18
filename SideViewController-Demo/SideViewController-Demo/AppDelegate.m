@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "SideViewController.h"
+#import "ViewController.h"
+#import "LeftViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,6 +19,15 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    NSLog(@"%f",[UIScreen mainScreen].bounds.size.height);
+    self.sideViewController = [[SideViewController alloc] initWithCenterViewController:[[ViewController alloc] init]];
+    self.sideViewController.leftSideViewController = [[LeftViewController alloc] init];
+    
+    self.window.rootViewController = self.sideViewController;
+    [self.window makeKeyAndVisible];
+    
     // Override point for customization after application launch.
     return YES;
 }

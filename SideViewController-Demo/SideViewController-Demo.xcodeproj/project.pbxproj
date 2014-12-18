@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E908F401A4172EE00084956 /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E908F3F1A4172EE00084956 /* LeftViewController.m */; };
 		7EA8E7CC1A41571C00E34720 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8E7CB1A41571C00E34720 /* main.m */; };
 		7EA8E7CF1A41571C00E34720 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8E7CE1A41571C00E34720 /* AppDelegate.m */; };
 		7EA8E7D21A41571C00E34720 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8E7D11A41571C00E34720 /* ViewController.m */; };
-		7EA8E7D51A41571C00E34720 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EA8E7D31A41571C00E34720 /* Main.storyboard */; };
 		7EA8E7D71A41571C00E34720 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EA8E7D61A41571C00E34720 /* Images.xcassets */; };
-		7EA8E7DA1A41571C00E34720 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EA8E7D81A41571C00E34720 /* LaunchScreen.xib */; };
 		7EA8E7E61A41571C00E34720 /* SideViewController_DemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8E7E51A41571C00E34720 /* SideViewController_DemoTests.m */; };
 		7EA8E7F21A41582200E34720 /* SideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA8E7F11A41582200E34720 /* SideViewController.m */; };
 /* End PBXBuildFile section */
@@ -28,6 +27,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7E908F3E1A4172EE00084956 /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
+		7E908F3F1A4172EE00084956 /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewController.m; sourceTree = "<group>"; };
 		7EA8E7C61A41571C00E34720 /* SideViewController-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SideViewController-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA8E7CA1A41571C00E34720 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EA8E7CB1A41571C00E34720 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -35,9 +36,7 @@
 		7EA8E7CE1A41571C00E34720 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7EA8E7D01A41571C00E34720 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		7EA8E7D11A41571C00E34720 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		7EA8E7D41A41571C00E34720 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7EA8E7D61A41571C00E34720 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		7EA8E7D91A41571C00E34720 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		7EA8E7DF1A41571C00E34720 /* SideViewController-DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SideViewController-DemoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA8E7E41A41571C00E34720 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EA8E7E51A41571C00E34720 /* SideViewController_DemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SideViewController_DemoTests.m; sourceTree = "<group>"; };
@@ -88,10 +87,10 @@
 				7EA8E7CE1A41571C00E34720 /* AppDelegate.m */,
 				7EA8E7D01A41571C00E34720 /* ViewController.h */,
 				7EA8E7D11A41571C00E34720 /* ViewController.m */,
+				7E908F3E1A4172EE00084956 /* LeftViewController.h */,
+				7E908F3F1A4172EE00084956 /* LeftViewController.m */,
 				7EA8E7EF1A4157DE00E34720 /* New Group */,
-				7EA8E7D31A41571C00E34720 /* Main.storyboard */,
 				7EA8E7D61A41571C00E34720 /* Images.xcassets */,
-				7EA8E7D81A41571C00E34720 /* LaunchScreen.xib */,
 				7EA8E7C91A41571C00E34720 /* Supporting Files */,
 			);
 			path = "SideViewController-Demo";
@@ -212,8 +211,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EA8E7D51A41571C00E34720 /* Main.storyboard in Resources */,
-				7EA8E7DA1A41571C00E34720 /* LaunchScreen.xib in Resources */,
 				7EA8E7D71A41571C00E34720 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -233,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EA8E7D21A41571C00E34720 /* ViewController.m in Sources */,
+				7E908F401A4172EE00084956 /* LeftViewController.m in Sources */,
 				7EA8E7CF1A41571C00E34720 /* AppDelegate.m in Sources */,
 				7EA8E7CC1A41571C00E34720 /* main.m in Sources */,
 				7EA8E7F21A41582200E34720 /* SideViewController.m in Sources */,
@@ -256,25 +254,6 @@
 			targetProxy = 7EA8E7E01A41571C00E34720 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		7EA8E7D31A41571C00E34720 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7EA8E7D41A41571C00E34720 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		7EA8E7D81A41571C00E34720 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7EA8E7D91A41571C00E34720 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		7EA8E7E71A41571C00E34720 /* Debug */ = {
@@ -360,6 +339,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "SideViewController-Demo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -370,6 +350,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "SideViewController-Demo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -428,6 +409,7 @@
 				7EA8E7EB1A41571C00E34720 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7EA8E7EC1A41571C00E34720 /* Build configuration list for PBXNativeTarget "SideViewController-DemoTests" */ = {
 			isa = XCConfigurationList;
@@ -436,6 +418,7 @@
 				7EA8E7EE1A41571C00E34720 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
