@@ -21,9 +21,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    NSLog(@"%f",[UIScreen mainScreen].bounds.size.height);
-    self.sideViewController = [[SideViewController alloc] initWithCenterViewController:[[ViewController alloc] init]];
+    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[ViewController alloc] init]];
+    
+    self.sideViewController = [[SideViewController alloc] initWithCenterViewController:nav];
     self.sideViewController.leftSideViewController = [[LeftViewController alloc] init];
+    
+    self.sideViewController.rightSideViewController = [[LeftViewController alloc] init];
     
     self.window.rootViewController = self.sideViewController;
     [self.window makeKeyAndVisible];

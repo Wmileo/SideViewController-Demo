@@ -15,7 +15,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor greenColor];
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 100, 50, 50)];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(150, 40, 50, 50)];
     button.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:button];
     [button addTarget:self action:@selector(hideSide) forControlEvents:UIControlEventTouchUpInside];

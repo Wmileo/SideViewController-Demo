@@ -8,22 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol SideViewControllerDelegate <NSObject>
-
--(void)willShowLeftSide;
--(void)didShowLeftSide;
-
--(void)willShowRightSide;
--(void)didShowRightSide;
-
--(void)willHideSide;
--(void)didHideSide;
-
-@end
+typedef NS_ENUM(NSInteger, STATUS_TYPE){
+    STATUS_LEFT,
+    STATUS_RIGHT,
+    STATUS_CENTER,
+};
 
 @interface SideViewController : UIViewController
-
-@property (nonatomic, assign) id<SideViewControllerDelegate> delegate;
 
 @property (nonatomic, strong) UIViewController *centerViewController;
 @property (nonatomic, strong) UIViewController *leftSideViewController;
@@ -33,6 +24,8 @@
 @property (nonatomic, assign) CGFloat maxRightSideWidth;
 @property (nonatomic, assign) CGFloat zoomScale;
 @property (nonatomic, assign) NSTimeInterval duration;
+
+@property (nonatomic, assign) STATUS_TYPE status;
 
 -(instancetype)initWithCenterViewController:(UIViewController *)centerViewController;
 

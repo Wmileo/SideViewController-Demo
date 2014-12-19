@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "AppDelegate.h"
+#import "LeftViewController.h"
 
 @interface ViewController ()
 
@@ -16,8 +17,8 @@
 @implementation ViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
     
+    [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor blueColor];
     
@@ -26,16 +27,11 @@
     [showButton addTarget:self action:@selector(showLeft) forControlEvents:UIControlEventTouchUpInside];
     showButton.backgroundColor = [UIColor whiteColor];
     
-        UIActivityIndicatorView *wait = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-//        wait.frame = CGRectMake(0, 0, self.width, self.width);
-        wait.center = CGPointMake(320/2, 320/2);
-//        wait.backgroundColor = [UIColor greenColor];
-        [wait startAnimating];
-        [self.view addSubview:wait];
+    UIButton *butt = [[UIButton alloc] initWithFrame:CGRectMake(200, 100, 50, 50)];
+    butt.backgroundColor = [UIColor yellowColor];
+    [self.view addSubview:butt];
+    [butt addTarget:self action:@selector(lalala) forControlEvents:UIControlEventTouchUpInside];
     
-    UIView *piont = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 200)];
-    piont.backgroundColor = [UIColor yellowColor];
-    [self.view addSubview:piont];
     
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -47,6 +43,11 @@
 
 -(void)showLeft{
     [((AppDelegate *)([UIApplication sharedApplication].delegate)).sideViewController showLeftSide];
+}
+
+-(void)lalala{
+    [((AppDelegate *)([UIApplication sharedApplication].delegate)).sideViewController showRightSide];
+//    [self.navigationController pushViewController:[[LeftViewController alloc] init] animated:YES];
 }
 
 @end
