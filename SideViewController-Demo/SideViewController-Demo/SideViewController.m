@@ -8,16 +8,29 @@
 
 #import "SideViewController.h"
 
+#define LEFT_SIDE 30
+
 typedef NS_ENUM(NSInteger, ANIMATION_TYPE) {
     ANIMATION_SHOW_LEFT,
     ANIMATION_SHOW_RIGHT,
     ANIMATION_HIDE_SIDE,
 };
 
+#define k_IDENTIFICATION @"identification"
+#define k_FINISH_BLOCK @"finish_block"
+#define k_POSITION @"position"
+#define k_SCALE @"scale"
+
+#define kAnimationShowLeft @"ANIMATION_SHOW_LEFT"
+#define kAnimationShowRight @"ANIMATION_SHOW_RIGHT"
+#define kAnimationHideSide @"ANIMATION_HIDE_SIDE"
+
 typedef NS_ENUM(NSInteger, SIDE_TYPE){
     SIDE_LEFT,
     SIDE_RIGHT
 };
+
+#define NSVALUE_POINT(point) [NSValue valueWithCGPoint:point]
 
 @interface SideViewController()<UIGestureRecognizerDelegate>
 
@@ -33,6 +46,11 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
 
 @property (nonatomic, weak) UIView *sideView;
 
+@property (nonatomic, assign) CGFloat touchX;
+@property (nonatomic, assign) BOOL isStartAnimation;
+@property (nonatomic, assign) CFTimeInterval lastTimeOffSet;
+@property (nonatomic, assign) CGFloat ratio;
+
 @end
 
 @implementation SideViewController
@@ -42,10 +60,12 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
     if (self) {
 
         self.centerViewController = centerViewController;
-        self.maxLeftSideWidth = 180;
+        self.maxLeftSideWidth = 190;
         self.maxRightSideWidth = 100;
         self.zoomScale = 0.7;
-        self.duration = 0.3;
+        self.duration = 0.2;
+        self.isStartAnimation = NO;
+        self.status = STATUS_CENTER;
         
     }
     return self;
@@ -60,69 +80,84 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
 #pragma mark - controller
 
 -(void)showLeftSide{
-
-    [self willShowSide:SIDE_LEFT];
-    
-    CGRect rect = self.centerViewController.view.frame;
-    CGRect rr = self.view.frame;
-    rect.origin.x = self.maxLeftSideWidth - (rr.size.width - rr.size.width * self.zoomScale)/2;
-
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView animateWithDuration:self.duration animations:^{
-        self.centerViewController.view.frame = rect;
-        self.centerViewController.view.transform = CGAffineTransformMakeScale(self.zoomScale, self.zoomScale);
-    }];
-
+    [self addAnimation:ANIMATION_SHOW_LEFT finish:nil];
 }
 
 -(void)hideSide{
-    
-    CGRect rect = self.centerViewController.view.frame;
-    CGRect rr = self.view.frame;
-    rect.origin.x = (rr.size.width - rr.size.width * self.zoomScale)/2;
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    
-    [UIView animateWithDuration:self.duration animations:^{
-        self.centerViewController.view.frame = rect;
-        self.centerViewController.view.transform = CGAffineTransformMakeScale(1, 1);
-    } completion:^(BOOL finished) {
-        [self didHideSide];
+    __weak __typeof(self) wself = self;
+    [self addAnimation:ANIMATION_HIDE_SIDE finish:^{
+        [wself didHideSide];
     }];
-
 }
 
 -(void)showRightSide{
-    [self willShowSide:SIDE_RIGHT];
-    
-    CGRect rect = self.centerViewController.view.frame;
-    CGRect rr = self.view.frame;
-    rect.origin.x = -self.maxRightSideWidth + (rr.size.width - rr.size.width * self.zoomScale)/2;
-    
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView animateWithDuration:self.duration animations:^{
-        self.centerViewController.view.frame = rect;
-        self.centerViewController.view.transform = CGAffineTransformMakeScale(self.zoomScale, self.zoomScale);
-    }];
+    [self addAnimation:ANIMATION_SHOW_RIGHT finish:nil];
 }
 
 -(void)panGestureRecognizer:(UIPanGestureRecognizer *)pan{
     
     CGFloat touchX = [pan locationInView:self.view].x;
-    NSLog(@"%f",touchX);
+
     switch (pan.state) {
         case UIGestureRecognizerStateBegan:
         {
-            
+            NSLog(@"start");
+            self.isStartAnimation = YES;
+            self.centerLayer.speed = 0;
+            self.touchX = touchX;
         }
             break;
         case UIGestureRecognizerStateEnded:
         {
-        
+            NSLog(@"end  %f",self.lastTimeOffSet);
+            
+//            [self.centerLayer removeAllAnimations];
+//            [self hideSide];
+
+            self.isStartAnimation = NO;
+            self.centerLayer.speed = 1;
+            self.centerLayer.timeOffset = 0;
+            self.centerLayer.beginTime = 0;
+            
+            CFTimeInterval pausedTime = self.lastTimeOffSet;
+            
+            self.centerLayer.beginTime = [self.centerLayer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
+
+            
+            NSLog(@"%f",pausedTime);
+            
+
         }
             break;
-        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateChanged:
         {
-        
+            if (self.isStartAnimation) {
+                self.isStartAnimation = NO;
+                switch (self.status) {
+                    case STATUS_CENTER:
+                        [self addAnimation:ANIMATION_SHOW_LEFT finish:nil];
+                        self.ratio = self.maxLeftSideWidth * 5;
+                        break;
+                    case STATUS_LEFT:
+                        [self addAnimation:ANIMATION_HIDE_SIDE finish:nil];
+                        self.ratio = self.maxLeftSideWidth * 5;
+                        break;
+                    case STATUS_RIGHT:
+                        [self addAnimation:ANIMATION_HIDE_SIDE finish:nil];
+                        self.ratio = self.maxRightSideWidth * 5;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            self.lastTimeOffSet = (touchX - self.touchX)/self.ratio;
+            if (self.status == STATUS_LEFT) {
+                self.lastTimeOffSet = -self.lastTimeOffSet;
+            }
+            if (self.lastTimeOffSet < 0.015) {
+                self.lastTimeOffSet = 0.015;
+            }
+            self.centerLayer.timeOffset = self.lastTimeOffSet;
         }
             break;
             
@@ -135,9 +170,27 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
 
 -(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
     if (gestureRecognizer == self.panGestureRecognizer) {
+        CGFloat touchX = [gestureRecognizer locationInView:self.view].x;
+        
+        switch (self.status) {
+            case STATUS_CENTER:
+                if (touchX < LEFT_SIDE) {
+                    return YES;
+                }
+                break;
+            case STATUS_LEFT:
+                return YES;
+                break;
+            case STATUS_RIGHT:
+                return YES;
+                break;
+                
+            default:
+                break;
+        }
         
     }
-    return YES;
+    return NO;
 }
 
 #pragma mark - private
@@ -145,6 +198,9 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
 -(void)willShowSide:(SIDE_TYPE)type{
     self.sideView = (type == SIDE_LEFT)?self.leftView:self.rightView;
     if (self.sideView) {
+        if ([self.view.subviews containsObject:self.sideView]) {
+            [self.sideView removeFromSuperview];
+        }
         [self.view insertSubview:self.sideView belowSubview:self.centerView];
     }
 }
@@ -155,41 +211,77 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
     }
 }
 
--(void)addAnimation:(ANIMATION_TYPE)type{
+-(void)addAnimation:(ANIMATION_TYPE)type finish:(void(^)())finish{
+    
+    CGPoint point = self.centerLayer.position;
+    CGFloat scale;
     
     NSArray *positions,*scales;
+    NSString *identification;
+    
+    CGFloat view_width = self.view.frame.size.width;
+    
+    STATUS_TYPE status;
     switch (type) {
         case ANIMATION_HIDE_SIDE:
-            
+            scales = @[@(self.zoomScale),@1];
+            point.x = view_width / 2;
+            identification = kAnimationHideSide;
+            status = STATUS_CENTER;
             break;
         case ANIMATION_SHOW_LEFT:
-            
+            [self willShowSide:SIDE_LEFT];
+            scales = @[@1,@(self.zoomScale)];
+            point.x = self.maxLeftSideWidth + (view_width * self.zoomScale) /2;
+            identification = kAnimationShowLeft;
+            status = STATUS_LEFT;
             break;
         case ANIMATION_SHOW_RIGHT:
-            
+            [self willShowSide:SIDE_RIGHT];
+            identification = kAnimationShowRight;
+            scales = @[@1,@(self.zoomScale)];
+            point.x = view_width - (view_width * self.zoomScale)/2 - self.maxRightSideWidth;
+            status = STATUS_RIGHT;
             break;
-            
         default:
             break;
     }
     
+    scale = [[scales lastObject] floatValue];
+    positions = @[NSVALUE_POINT(self.centerLayer.position),NSVALUE_POINT(point)];
+    
     CAKeyframeAnimation *moveAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
     moveAnimation.duration = self.duration;
-    moveAnimation.delegate = self;
-    [moveAnimation setValue:@"moveUpBack" forKey:@"identification"];
     moveAnimation.values = positions;
-    [self.centerLayer addAnimation:moveAnimation forKey:@"moveUpBack"];
-    
-    if (type == ANIMATION_HIDE_SIDE) {
-        
-    }
     
     CAKeyframeAnimation *scaleAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
     scaleAnimation.duration = self.duration;
     scaleAnimation.values = scales;
-    [self.centerLayer addAnimation:scaleAnimation forKey:@"scaleUpBack"];
+
+    __weak __typeof(self) wself = self;
+    void(^Finish)() = ^{
+        wself.status = status;
+        if (finish) {
+            finish();
+        }
+    };
+
+    scaleAnimation.delegate = self;
+    [scaleAnimation setValue:Finish forKey:k_FINISH_BLOCK];
     
+    [self.centerLayer addAnimation:moveAnimation forKey:k_POSITION];
+    [self.centerLayer addAnimation:scaleAnimation forKey:k_SCALE];
     
+    self.centerLayer.position = point;
+    self.centerLayer.transform = CATransform3DMakeScale(scale, scale, scale);
+    
+}
+
+-(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
+    if ([anim valueForKey:k_FINISH_BLOCK]) {
+        void(^finish)() = [anim valueForKey:k_FINISH_BLOCK];
+        finish();
+    }
 }
 
 #pragma mark - set get
