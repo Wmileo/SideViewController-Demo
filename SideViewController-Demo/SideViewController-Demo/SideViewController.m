@@ -282,6 +282,14 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
 #pragma mark - set get
 -(void)setCenterViewController:(UIViewController *)centerViewController{
     if (_centerViewController != centerViewController) {
+        BOOL hasLast = NO;
+        CGPoint point;
+        CATransform3D transform;
+        if (_centerViewController) {
+            point = self.centerLayer.position;
+            transform = self.centerLayer.transform;
+            hasLast = YES;
+        }
         [self.view addSubview:centerViewController.view];
         if (self.centerView){
             [self.centerView removeGestureRecognizer:self.panGestureRecognizer];
@@ -289,6 +297,13 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
         }
         _centerViewController = centerViewController;
         [self.centerView addGestureRecognizer:self.panGestureRecognizer];
+        if (hasLast) {
+            self.centerLayer.position = point;
+            self.centerLayer.transform = transform;
+        }
+    }
+    if (self.status != STATUS_CENTER) {
+        [self hideSideFinish:nil];
     }
 }
 
