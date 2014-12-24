@@ -29,8 +29,8 @@ typedef NS_ENUM(NSInteger, STATUS_TYPE){
 
 -(instancetype)initWithCenterViewController:(UIViewController *)centerViewController;
 
--(void)showLeftSide;
--(void)showRightSide;
--(void)hideSide;
+-(void)showLeftSideFinish:(void(^)())finish;
+-(void)showRightSideFinish:(void(^)())finish;
+-(void)hideSideFinish:(void(^)())finish;
 
 @end

@@ -79,19 +79,22 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
 
 #pragma mark - controller
 
--(void)showLeftSide{
-    [self addAnimation:ANIMATION_SHOW_LEFT finish:nil];
+-(void)showLeftSideFinish:(void (^)())finish{
+    [self addAnimation:ANIMATION_SHOW_LEFT finish:finish];
 }
 
--(void)hideSide{
+-(void)hideSideFinish:(void (^)())finish{
     __weak __typeof(self) wself = self;
     [self addAnimation:ANIMATION_HIDE_SIDE finish:^{
+        if (finish) {
+            finish();
+        }
         [wself didHideSide];
     }];
 }
 
--(void)showRightSide{
-    [self addAnimation:ANIMATION_SHOW_RIGHT finish:nil];
+-(void)showRightSideFinish:(void (^)())finish{
+    [self addAnimation:ANIMATION_SHOW_RIGHT finish:finish];
 }
 
 -(void)panGestureRecognizer:(UIPanGestureRecognizer *)pan{
@@ -109,10 +112,6 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
             break;
         case UIGestureRecognizerStateEnded:
         {
-            NSLog(@"end  %f",self.lastTimeOffSet);
-            
-//            [self.centerLayer removeAllAnimations];
-//            [self hideSide];
 
             self.isStartAnimation = NO;
             self.centerLayer.speed = 1;
@@ -122,10 +121,6 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
             CFTimeInterval pausedTime = self.lastTimeOffSet;
             
             self.centerLayer.beginTime = [self.centerLayer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
-
-            
-            NSLog(@"%f",pausedTime);
-
 
         }
             break;
