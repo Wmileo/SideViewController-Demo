@@ -125,7 +125,7 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
 
             
             NSLog(@"%f",pausedTime);
-            
+
 
         }
             break;
