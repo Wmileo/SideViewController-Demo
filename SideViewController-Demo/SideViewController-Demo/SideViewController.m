@@ -68,7 +68,7 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
         self.duration = 0.2;
         self.isStartAnimation = NO;
         self.status = STATUS_CENTER;
-        
+        self.canDrag = YES;
     }
     return self;
 }
@@ -161,6 +161,11 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
 
 -(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
     if (gestureRecognizer == self.panGestureRecognizer) {
+        
+        if (!self.canDrag) {
+            return NO;
+        }
+        
         CGFloat touchX = [gestureRecognizer locationInView:self.view].x;
         
         switch (self.status) {

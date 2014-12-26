@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, STATUS_TYPE){
 @property (nonatomic, assign) NSTimeInterval duration;
 
 @property (nonatomic, assign) STATUS_TYPE status;
+@property (nonatomic, assign) BOOL canDrag;
 
 -(instancetype)initWithCenterViewController:(UIViewController *)centerViewController;
 
