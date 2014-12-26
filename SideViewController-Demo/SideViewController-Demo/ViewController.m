@@ -42,11 +42,11 @@
 }
 
 -(void)showLeft{
-    [((AppDelegate *)([UIApplication sharedApplication].delegate)).sideViewController showLeftSide];
+    [((AppDelegate *)([UIApplication sharedApplication].delegate)).sideViewController showLeftSideFinish:nil];
 }
 
 -(void)lalala{
-    [((AppDelegate *)([UIApplication sharedApplication].delegate)).sideViewController showRightSide];
+    [((AppDelegate *)([UIApplication sharedApplication].delegate)).sideViewController showRightSideFinish:nil];
 //    [self.navigationController pushViewController:[[LeftViewController alloc] init] animated:YES];
 }
 

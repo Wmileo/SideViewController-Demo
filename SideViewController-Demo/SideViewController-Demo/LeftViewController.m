@@ -24,7 +24,7 @@
 
 
 -(void)hideSide{
-    [((AppDelegate *)([UIApplication sharedApplication].delegate)).sideViewController hideSide];
+    [((AppDelegate *)([UIApplication sharedApplication].delegate)).sideViewController hideSideFinish:nil];
 }
 
 @end

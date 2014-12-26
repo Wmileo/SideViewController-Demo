@@ -8,7 +8,7 @@
 
 #import "SideViewController.h"
 
-#define LEFT_SIDE 30
+#define LEFT_SIDE 40
 
 typedef NS_ENUM(NSInteger, ANIMATION_TYPE) {
     ANIMATION_SHOW_LEFT,
@@ -51,6 +51,8 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
 @property (nonatomic, assign) CFTimeInterval lastTimeOffSet;
 @property (nonatomic, assign) CGFloat ratio;
 
+@property (nonatomic, strong) UIButton *centerButton;
+
 @end
 
 @implementation SideViewController
@@ -84,13 +86,7 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
 }
 
 -(void)hideSideFinish:(void (^)())finish{
-    __weak __typeof(self) wself = self;
-    [self addAnimation:ANIMATION_HIDE_SIDE finish:^{
-        if (finish) {
-            finish();
-        }
-        [wself didHideSide];
-    }];
+    [self addAnimation:ANIMATION_HIDE_SIDE finish:finish];
 }
 
 -(void)showRightSideFinish:(void (^)())finish{
@@ -200,10 +196,16 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
     }
 }
 
+-(void)didShowSide{
+    self.centerButton.frame = self.centerView.bounds;
+    [self.centerView addSubview:self.centerButton];
+}
+
 -(void)didHideSide{
     if (self.sideView) {
         [self.sideView removeFromSuperview];
     }
+    [self.centerButton removeFromSuperview];
 }
 
 -(void)addAnimation:(ANIMATION_TYPE)type finish:(void(^)())finish{
@@ -259,6 +261,11 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
         if (finish) {
             finish();
         }
+        if (status == STATUS_CENTER) {
+            [wself didHideSide];
+        }else{
+            [wself didShowSide];
+        }
     };
 
     scaleAnimation.delegate = self;
@@ -275,7 +282,9 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
 -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
     if ([anim valueForKey:k_FINISH_BLOCK]) {
         void(^finish)() = [anim valueForKey:k_FINISH_BLOCK];
-        finish();
+        if (finish) {
+            finish();
+        }
     }
 }
 
@@ -356,6 +365,16 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
     }else{
         return nil;
     }
+}
+-(UIButton *)centerButton{
+    if (!_centerButton) {
+        _centerButton = [[UIButton alloc] initWithFrame:CGRectNull];
+        [_centerButton addTarget:self action:@selector(clickOnCenterButton) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _centerButton;
+}
+-(void)clickOnCenterButton{
+    [self addAnimation:ANIMATION_HIDE_SIDE finish:nil];
 }
 @end
 

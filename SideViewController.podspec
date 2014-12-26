@@ -74,7 +74,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/Wmileo/SideViewController-Demo.git", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/Wmileo/SideViewController-Demo.git", :tag => "0.0.2" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
