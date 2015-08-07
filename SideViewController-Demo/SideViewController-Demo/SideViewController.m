@@ -60,7 +60,6 @@ typedef NS_ENUM(NSInteger, SIDE_TYPE){
 -(instancetype)initWithCenterViewController:(UIViewController *)centerViewController{
     self = [super init];
     if (self) {
-
         self.centerViewController = centerViewController;
         self.maxLeftSideWidth = 190;
         self.maxRightSideWidth = 100;
